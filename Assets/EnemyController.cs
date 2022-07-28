@@ -4,39 +4,45 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float health;
-    public GameObject rocket;
-    public GameObject rocketPrefab;
+    public float life;
+    public GameObject pulia;
+    public GameObject prefab;
     public EnemyRoad enemys;
 
     void Start()
     {
-        health = 1;
-        GameObject rocketNew = Instantiate(rocketPrefab, transform);
-        rocket = rocketNew;
+        life = 1;
+        CreatePrefab();
     }
 
 
     void Update()
     {
- 
-        if (health == 0)
-        {
-            gameObject.SetActive(false);
-            enemys.enemyAmount -= 1;
-            rocket.transform.localPosition=new Vector2(0,0);
-        }
-
+        Finish();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        if (collision.gameObject.tag == "rockets")
+        if (collision.gameObject.tag == "Pulias")
         {
-            health = health - 0.5f;
-            Destroy( collision.gameObject);
-
+            life =life- 0.5f;
+            Destroy(collision.gameObject);
         }
+    }
+
+    private void Finish()
+    {
+        if (life == 0)
+        {
+            gameObject.SetActive(false);
+            enemys.enemyAmount -= 1;
+            pulia.transform.localPosition = new Vector2(0, 0);
+            pulia.GetComponent<Pulia>().movement=true;
+        }
+    }
+    private void CreatePrefab() { 
+        GameObject puliaNew = Instantiate(prefab, transform);
+        puliaNew.GetComponent<Pulia>().movement = true;
+        pulia = puliaNew;
     }
 }

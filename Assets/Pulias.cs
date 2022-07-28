@@ -4,37 +4,41 @@ using UnityEngine;
 
 public class Pulias : MonoBehaviour
 {
-    private bool move;
+    [SerializeField]
+    private bool movement;
 
-    public bool colision;
-
-    void Start()
+    private void FixedUpdate()
     {
-        colision = false;
-        move = true;
-    }
+        
+        OnMovement();
 
-
-    void Update()
-    {
- 
-        if (move == true)
-        {
-            move = false;
-            StartCoroutine(Move());
-        }
-        if (transform.localPosition.y>900)
+        if (IsPosition())
         {
             Destroy(gameObject);
         }
     }
 
-    IEnumerator Move()
+    private bool IsPosition()
+    {   
+        return transform.localPosition.y > 900;
+      
+    }
+
+    private void OnMovement()
     {
-        Debug.Log(Time.deltaTime * 0.0001f);
-        yield return new WaitForSeconds(Time.deltaTime * 0.00001f);
-        transform.localPosition = new Vector2(transform.localPosition.x, transform.localPosition.y+5);
-        move = true;
+        if (movement == true)
+        {
+            movement = false;
+            StartCoroutine(Movement());
+        }
+
+    }
+
+    IEnumerator Movement()
+    {   yield return new WaitForSeconds(Time.fixedDeltaTime* 0.00001f);
+        transform.localPosition = new Vector2(transform.localPosition.x, transform.localPosition.y+5); 
+       
+        movement = true;
     }
 
 }

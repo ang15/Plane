@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,45 +5,61 @@ using UnityEngine.UI;
 public class Plane : MonoBehaviour
 {
     
-    public float health;
+    public float life;
     [SerializeField]
-    private Slider slider;
-    public GameObject rocketPrefab;
+    private Slider sliderLife;
+    public GameObject prefab;
     public Transform canvas;
 
 
     void Start()
     {
-        health = 1f;
-        slider.value = 1;
-        GameObject rocketNew = Instantiate(rocketPrefab, canvas);
-        rocketNew.transform.localPosition = transform.localPosition;
+        life = 1f;
+        sliderLife.value = 1;
+        CreatePulia();
+    }
+
+    private void OnMouseDown()
+    {
+        CreatePulia();
     }
 
 
     void Update()
     {
-        slider.value = health;
-        
-        if (health <= 0)
+        sliderLife.value = life;
+
+        Finish();
+    }
+    private void Finish() {
+
+        if (life <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
-    private void OnMouseDown()
-    {
-        GameObject rocketNew = Instantiate(rocketPrefab, canvas);
-        rocketNew.transform.localPosition = transform.localPosition;
-    }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.tag == "rocket")
+        if (collision.gameObject.tag == "Pulia")
         {
-           health-=0.1f;
-           collision.gameObject.GetComponent<Pulia>().transform.localPosition = new Vector3(0, 0, 0);
+           life-=0.1f;
+           IsPozition(collision.gameObject);
 
         }
     }
 
+    private void IsPozition(GameObject pulia)
+    {
+        pulia.GetComponent<Pulia>().transform.localPosition = new Vector3(0, 0, 0);
+
+    }
+
+    private void CreatePulia()
+    {
+        GameObject rocketNew = Instantiate(prefab, canvas);
+        rocketNew.transform.localPosition = transform.localPosition;
+    }
 }

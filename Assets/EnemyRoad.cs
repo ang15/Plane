@@ -4,90 +4,94 @@ using UnityEngine;
 
 public class EnemyRoad : MonoBehaviour
 {
-    public bool move;
+    public bool movement;
     public int enemyAmount;
     [SerializeField]
     private int enemyAmount2;
     public GameObject[] enemys;
-    private bool move2;
-    private bool move4;
-    private bool move5;
+    private bool movement2;
+    private bool movement3;
+    private bool movement4;
 
-    void Start()
+    private void Start()
     {
-        move = true;
-        move2 = true;
+        movement = true;
+        movement2 = true;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        if (transform.localPosition.y <= -235 && move4 == false)
+        IsPosition();
+
+        if (transform.localPosition.y > -705)
         {
-                move2 = false;
-            
-        }else        
-        if (transform.localPosition.y <= -950 && move5 == false)
-        {
-           move2 = false;
-            
-        }else
-        {
-            move2 = true;
-        }
-        OnMove();
-        if (transform.localPosition.y > -2031)
-        {
-            if ( move2==true)
+            if (movement2==true && movement == true)
             {
-                if (move == true)
-                {
-                    move = false;
+                    movement = false;
                     StartCoroutine(Move());
-                }
             }
         }
         else
         {
-            transform.localPosition = new Vector3(0, 300, 0);
-            for (int i = 0; i < 2; i++)
-            {
-                enemys[i].SetActive(true);
-                enemys[i].GetComponent<EnemyController>().health = 1;
-            }
-            enemys[2].SetActive(true);
-            move4 = false;
-            move5 = false;
-            enemyAmount = enemyAmount2;
+            OnMovement();
+        }
+    }
+
+    private void  IsPosition()
+    {
+        if (transform.localPosition.y <= -235 && movement3 == false)
+        {
+            movement2 = false;
+        }
+        else
+        if (transform.localPosition.y <= -950 && movement4 == false)
+        {
+            movement2 = false;
+        }
+        else
+        {
+            movement2 = true;
         }
 
-        
+        OnMove();
     }
+    
+    private void OnMovement()
+    {
+        transform.localPosition = new Vector3(0, 300, 0);
+        for (int i = 0; i < 2; i++)
+        {
+            enemys[i].SetActive(true);
+            enemys[i].GetComponent<EnemyController>().life = 1;
+        }
+        movement3 = false;
+        movement4 = false;
+        enemyAmount = enemyAmount2;
+    }
+
 
     public void OnMove()
     {
-        if (move4 == false && enemyAmount == 3)
+        if (movement3 == false && enemyAmount == 3)
+        {
+            movement3 = true;
+            for (int i = 2; i < enemys.Length - 1; i++)
             {
-                move4 = true;
-                for (int i = 3; i < enemys.Length - 1; i++)
-                {
-                    enemys[i].SetActive(true);
-                    enemys[i].GetComponent<EnemyController>().health = 1;
-                }
-                enemys[enemys.Length - 1].SetActive(true);
-
+                enemys[i].SetActive(true);
+                enemys[i].GetComponent<EnemyController>().life = 1;
             }
-            else if (enemyAmount == 0 && move5==false)
-            {
-                move5 = true;
-              
-            }
-        
+            enemys[enemys.Length - 1].SetActive(true);
+        }
+        else if (enemyAmount == 0 && movement4 == false)
+        {
+            movement4 = true;
+        }
     }
+
     IEnumerator Move()
     {
-        Debug.Log(1.1f * Time.deltaTime * 100);
         yield return new WaitForSeconds(1.1f* Time.deltaTime*10);
         transform.localPosition = new Vector2(transform.localPosition.x, transform.localPosition.y - 10);
-        move = true;
+        movement = true;
     }
 }

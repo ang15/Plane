@@ -56,14 +56,13 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Controller.cs" />
     <Compile Include="Assets\EnemyController.cs" />
-    <Compile Include="Assets\Pulia.cs" />
-    <Compile Include="Assets\EnemyRoad.cs" />
     <Compile Include="Assets\Pulias.cs" />
-    <Compile Include="Assets\Monets.cs" />
-    <Compile Include="Assets\UIPanel.cs" />
     <Compile Include="Assets\Plane.cs" />
+    <Compile Include="Assets\Menue.cs" />
+    <Compile Include="Assets\Panel.cs" />
+    <Compile Include="Assets\EnemyRoad.cs" />
+    <Compile Include="Assets\Pulia.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
